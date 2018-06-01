@@ -17,39 +17,55 @@ func Generate(w io.Writer, data interface{}) error {
 }
 
 func marshal(data interface{}, w io.Writer, indent int) (err error) {
+	var nerr error
 	switch x := data.(type) {
 	case string:
-		addindent(w, indent) // TODO handle writes errors
+		nerr = addindent(w, indent)
+		err = check(err, nerr)
 
-		io.WriteString(w, "\"")
-		io.WriteString(w, x)
-		io.WriteString(w, "\"")
+		_, nerr = io.WriteString(w, "\"")
+		err = check(err, nerr)
+		_, nerr = io.WriteString(w, x)
+		err = check(err, nerr)
+		_, nerr = io.WriteString(w, "\"")
+		err = check(err, nerr)
 	case map[string]interface{}:
 		for k, v := range x {
-			marshal(k, w, indent)
+			nerr = marshal(k, w, indent)
+			err = check(err, nerr)
 
 			switch y := v.(type) {
 			case string:
-				io.WriteString(w, "\t\t")
-				marshal(y, w, 0)
+				_, nerr = io.WriteString(w, "\t\t")
+				err = check(err, nerr)
+				nerr = marshal(y, w, 0)
+				err = check(err, nerr)
 			case map[string]interface{}:
-				io.WriteString(w, "\n")
-				addindent(w, indent)
-				io.WriteString(w, "{\n")
-				marshal(y, w, indent+1)
-				io.WriteString(w, "\n")
-				addindent(w, indent)
-				io.WriteString(w, "}")
+				_, nerr = io.WriteString(w, "\n")
+				err = check(err, nerr)
+				nerr = addindent(w, indent)
+				err = check(err, nerr)
+				_, nerr = io.WriteString(w, "{\n")
+				err = check(err, nerr)
+				nerr = marshal(y, w, indent+1)
+				err = check(err, nerr)
+				_, nerr = io.WriteString(w, "\n")
+				err = check(err, nerr)
+				nerr = addindent(w, indent)
+				err = check(err, nerr)
+				_, nerr = io.WriteString(w, "}")
+				err = check(err, nerr)
 			default:
 				return ErrUnsupportedType
 			}
-			io.WriteString(w, "\n")
+			_, nerr = io.WriteString(w, "\n")
+			err = check(err, nerr)
 		}
 	default:
 		return ErrUnsupportedType
 	}
 
-	return nil
+	return
 }
 
 func addindent(w io.Writer, indent int) error {
@@ -60,4 +76,11 @@ func addindent(w io.Writer, indent int) error {
 		}
 	}
 	return nil
+}
+
+func check(err, nerr error) error {
+	if err != nil {
+		return nerr
+	}
+	return err
 }
