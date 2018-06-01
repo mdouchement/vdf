@@ -1,5 +1,10 @@
 # Valve Data Format
 
+[![CircleCI](https://circleci.com/gh/mdouchement/vdf.svg?style=shield)](https://circleci.com/gh/mdouchement/vdf)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/mdouchement/vdf)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mdouchement/vdf)](https://goreportcard.com/report/github.com/mdouchement/vdf)
+[![License](https://img.shields.io/github/license/mdouchement/vdf.svg)](http://opensource.org/licenses/MIT)
+
 A parser and a generator for [Valve Data Format](https://developer.valvesoftware.com/wiki/KeyValues) written in Go. It does not support all the features provided in Valve Data Format spec.
 
 Supported files (at least):

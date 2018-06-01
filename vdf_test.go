@@ -111,7 +111,7 @@ func TestGenerate(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(remote, remote2) {
-		t.Fatalf("Expected\n%v\nto equal\n%v", remote2, remote)
+		t.Fatalf("Expected\n%v\n to equal\n%v", remote2, remote)
 	}
 }
 
@@ -132,6 +132,6 @@ func TestGenerateIO(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(remote, remote2) {
-		t.Fatalf("Expected\n%v\nto equal\n%v", remote2, remote)
+		t.Fatalf("Expected\n%v\n to equal\n%v", remote2, remote)
 	}
 }
