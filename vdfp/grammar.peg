@@ -1,0 +1,24 @@
+Root <- (Node / KVs)+
+
+#// Node (object)
+Node <- S* Key N S* "{" N (Node+ / KVs+) S* "}" N
+
+#// Key/Value
+KVs <- S* Key S+ Value N
+
+Key <- "\"" ( !"\"" . )* "\""
+
+Value <- "\"" ( !"\"" . )* "\""
+
+#// Basics
+
+#// Whitespace but not EOL
+S  <-  " " / T
+
+#// Tabulation
+T <- [\t]
+
+#// Newline
+N <- ([\n] / [\r] / [\r\n])+
+
+Tk(x) <- < x >
